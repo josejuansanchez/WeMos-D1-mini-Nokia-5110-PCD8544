@@ -1,5 +1,6 @@
-/* Hello WeMos
- * Displays a few WeMos bitmaps
+/* QR Code
+ * Displays a QR Code.
+ * You'll have to scan it to find out what it is.
  *
  * Connections:
  * WeMos D1 Mini   Nokia 5110    Description
@@ -28,10 +29,7 @@
 #include <Adafruit_PCD8544.h>
 
 // Bitmaps
-#include "wemos-logo-84x48.h"
-#include "wemos-logo-84x28.h"
-#include "wemos-w-53x48.h"
-#include "wemos-w-84x48.h"
+#include "qr-code-25x25.h"
 
 // Pins
 const int8_t RST_PIN = D2;
@@ -67,32 +65,11 @@ void setup() {
   // Show the Adafruit logo, which is preloaded into the buffer by their library
   // display.clearDisplay();
   delay(2000);
+
+  display.clearDisplay();
+  display.drawBitmap(29, 11, QR_Code_25x25, 25, 25, 1);
+  display.display();
 }
 
 void loop() {
-  display.clearDisplay();
-  display.drawBitmap(0, 0, WeMos_logo_84x48, 84, 48, BLACK);
-  display.display();
-  Serial.println("Show WeMos logo 84x48 bitmap");
-  delay(2000);
-
-  display.clearDisplay();
-  display.fillScreen(1);  // Black background
-  display.drawBitmap(0, 10, WeMos_logo_84x28, 84, 28, WHITE); // Draw white pixels 'inverted'
-  display.display();
-  Serial.println("Show WeMos logo 84x28 bitmap");
-  delay(2000);
-
-  display.clearDisplay();
-  display.drawBitmap(0, 0, WeMos_W_84x48, 84, 48, BLACK);
-  Serial.println("Show WeMos W logo 84x48 bitmap");
-  display.display();
-  delay(2000);
-
-  display.clearDisplay();
-  display.fillScreen(1);  // Black background
-  display.drawBitmap(15, 0, WeMos_W_53x48, 53, 48, WHITE); // Draw white pixels 'inverted'
-  Serial.println("Show WeMos W logo 53x48 bitmap");
-  display.display();
-  delay(2000);
 }

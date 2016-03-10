@@ -1,5 +1,5 @@
-/* Hello WeMos
- * Displays a few WeMos bitmaps
+/* Text Rotation
+ * Display some characters at 0, 90, 180 and 270 degrees
  *
  * Connections:
  * WeMos D1 Mini   Nokia 5110    Description
@@ -27,18 +27,12 @@
 #include <Adafruit_GFX.h>
 #include <Adafruit_PCD8544.h>
 
-// Bitmaps
-#include "wemos-logo-84x48.h"
-#include "wemos-logo-84x28.h"
-#include "wemos-w-53x48.h"
-#include "wemos-w-84x48.h"
-
 // Pins
 const int8_t RST_PIN = D2;
 const int8_t CE_PIN = D1;
 const int8_t DC_PIN = D6;
-//const int8_t DIN_PIN = D7;  // Uncomment for Software SPI
-//const int8_t CLK_PIN = D5;  // Uncomment for Software SPI
+//const int8_t DIN_PIN = D7;  // uncomment for Software SPI
+//const int8_t CLK_PIN = D5;  // uncomment for Software SPI
 const int8_t BL_PIN = D0;
 
 
@@ -67,32 +61,42 @@ void setup() {
   // Show the Adafruit logo, which is preloaded into the buffer by their library
   // display.clearDisplay();
   delay(2000);
+
+  display.clearDisplay();
+  display.setTextSize(1);
+  display.setTextColor(BLACK);
+  display.display();
 }
 
 void loop() {
-  display.clearDisplay();
-  display.drawBitmap(0, 0, WeMos_logo_84x48, 84, 48, BLACK);
-  display.display();
-  Serial.println("Show WeMos logo 84x48 bitmap");
-  delay(2000);
+  // setRotation(0) = 0 degrees
+  // setRotation(1) = 90 degrees counter clockwise
+  // setRotation(2) = 180 degrees counter clockwise
+  // setRotation(3) = 270 degrees counter clockwise
 
-  display.clearDisplay();
-  display.fillScreen(1);  // Black background
-  display.drawBitmap(0, 10, WeMos_logo_84x28, 84, 28, WHITE); // Draw white pixels 'inverted'
-  display.display();
-  Serial.println("Show WeMos logo 84x28 bitmap");
-  delay(2000);
-
-  display.clearDisplay();
-  display.drawBitmap(0, 0, WeMos_W_84x48, 84, 48, BLACK);
-  Serial.println("Show WeMos W logo 84x48 bitmap");
-  display.display();
-  delay(2000);
-
-  display.clearDisplay();
-  display.fillScreen(1);  // Black background
-  display.drawBitmap(15, 0, WeMos_W_53x48, 53, 48, WHITE); // Draw white pixels 'inverted'
-  Serial.println("Show WeMos W logo 53x48 bitmap");
-  display.display();
-  delay(2000);
+  for (uint8_t i = 0; i <= 3; i++) {
+    display.clearDisplay();
+    display.setRotation(i);
+    display.setCursor(0,0);
+    // Print some ASCII characters (A-Z, a-z, 0-9, !-/, :-@)
+    for (char c = 'A'; c <= 'Z'; c++) {
+      display.print(c);
+    }
+    for (char c = 'a'; c <= 'z'; c++) {
+      display.print(c);
+    }
+    for (char c = '0'; c <= '9'; c++) {
+      display.print(c);
+    }
+    for (char c = 33; c <= 47; c++) {
+      display.print(c);
+    }
+    for (char c = 58; c <= 64; c++) {
+      display.print(c);
+    }
+    display.display();
+    Serial.print(i * 90);
+    Serial.println(" degrees");
+    delay(2000);
+  }
 }
