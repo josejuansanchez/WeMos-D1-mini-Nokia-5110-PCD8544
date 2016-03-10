@@ -35,3 +35,6 @@
 ## Cube
 
 ![Cube](../photos/cube.jpg)
+
+## Conway's Game of Life
+![Conway's Game of Life](../photos/conways-game-of-life.jpg)
