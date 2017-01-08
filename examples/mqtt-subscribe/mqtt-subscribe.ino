@@ -67,7 +67,7 @@ void setup() {
   // Configure LCD
   //display.setRotation(2);
   display.begin();
-  display.setContrast(50);
+  display.setContrast(60);
   display.setTextSize(3);
   display.setTextColor(BLACK);
   display.setCursor(0,0);
