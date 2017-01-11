@@ -92,3 +92,8 @@ JKLMNOPQ R0000000
 To make the image2cpp tool output an Adafruit compatible byte array, you need to upload an image then round up the width to make it divisble by 8. eg. Upload a 84x48 image, then adjust the width to 88x48 then generate the bytes. Upload a 9x2 image and you need to change the size to 16x2 then generate.
 
 The internal buffer in the library stores the bits in 6 rows of 84x columns of 8 bits. Completely different to what `drapBitmap()` accepts!
+
+## References
+
+* [Nokia 5110/3310 Monochrome LCD](https://learn.adafruit.com/nokia-5110-3310-monochrome-lcd?view=all). Adafruit.
+* [Adafruit GFX Graphics Library](https://learn.adafruit.com/adafruit-gfx-graphics-library).
