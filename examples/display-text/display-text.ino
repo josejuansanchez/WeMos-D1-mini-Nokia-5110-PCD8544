@@ -38,20 +38,21 @@ void drawAxis() {
 
 //---------------------------------------------------
 
-void __loop() {
-  // Text size: 1 allows to display 78 chars
-  // Resolution: 84 x 48
+void showText(String msg) {
+  // A a text size=1 allows to display 78 chars
+  uint8_t MAX_CHARS_DISPLAYED = 79;
+  uint8_t numberOfChunks = (msg.length() / MAX_CHARS_DISPLAYED) + 1;
+  uint8_t from = 0;
+  uint8_t to = MAX_CHARS_DISPLAYED;
 
-  String msg1 = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur hendrerit o";
-  String msg2 = "rci non libero rutrum tempus. Donec quis rhoncus nunc. Phasell";
-  display.clearDisplay();
-  display.print(msg1);
-  display.display();
-  delay(1000);
-  display.clearDisplay();
-  display.print(msg2);
-  display.display();
-  delay(1000);
+  for(uint8_t i = 0; i < numberOfChunks; i++) {
+    display.clearDisplay();
+    display.print(msg.substring(from, to));
+    display.display();
+    from = to + 1;
+    to = to + MAX_CHARS_DISPLAYED;
+    delay(4000);
+  }
 }
 
 //---------------------------------------------------
@@ -99,8 +100,27 @@ void test_01() {
 
 //---------------------------------------------------
 
+void test_02() {
+  for(int value = 0; value <= 1023; value++) {
+    showTitleAndValue("ldr", value);
+    delay(100);
+  }
+}
+
+//---------------------------------------------------
+
+void test_03() {
+  String msg = "Lorem ipsum dolor sit amet, consectetur ";
+  msg += "adipiscing elit. Suspendisse scelerisque nunc sit ";
+  msg += "amet dictum auctor. Vivamus molestie elit ac ante aliquet, ";
+  msg += "vitae rhoncus mauris suscipit.";
+  showText(msg);
+}
+
+//---------------------------------------------------
+
 void loop() {
-  test_01();
+  test_03();
 }
 
 //---------------------------------------------------
