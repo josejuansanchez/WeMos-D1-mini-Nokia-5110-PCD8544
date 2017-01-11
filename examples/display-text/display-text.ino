@@ -22,7 +22,7 @@ void setup() {
 
   // Configure LCD
   display.begin();
-  display.setContrast(60);
+  display.setContrast(100);
   display.clearDisplay();
 
   // Temporary
@@ -34,6 +34,24 @@ void setup() {
 void drawAxis() {
   display.drawLine(LCDWIDTH/2, 0, LCDWIDTH/2, LCDHEIGHT, BLACK);
   display.drawLine(0, LCDHEIGHT/2, LCDWIDTH, LCDHEIGHT/2, BLACK);  
+}
+
+//---------------------------------------------------
+
+void __loop() {
+  // Text size: 1 allows to display 78 chars
+  // Resolution: 84 x 48
+
+  String msg1 = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur hendrerit o";
+  String msg2 = "rci non libero rutrum tempus. Donec quis rhoncus nunc. Phasell";
+  display.clearDisplay();
+  display.print(msg1);
+  display.display();
+  delay(1000);
+  display.clearDisplay();
+  display.print(msg2);
+  display.display();
+  delay(1000);
 }
 
 //---------------------------------------------------
@@ -53,15 +71,18 @@ int calculateNumberOfChars(int value) {
 //---------------------------------------------------
 
 void showTitleAndValue(String title, int value, int titleSize = 1, int valueSize = 3) {
+  uint8_t CHAR_WIDTH = 5;
+  uint8_t CHAR_HEIGHT = 3;
+
   display.clearDisplay();
   
   display.setTextSize(titleSize);
-  display.setCursor(LCDWIDTH/2 - ceil(5*titleSize/2.0)*title.length(), 0);
+  display.setCursor(LCDWIDTH/2 - ceil(CHAR_WIDTH*titleSize/2.0)*title.length(), 0);
   display.print(title);
   
   display.setTextSize(valueSize);
   int numberOfChars = calculateNumberOfChars(value);
-  display.setCursor(LCDWIDTH/2 - ceil(5*valueSize/2.0)*numberOfChars, LCDHEIGHT/2 - 3*valueSize);
+  display.setCursor(LCDWIDTH/2 - ceil(CHAR_WIDTH*valueSize/2.0)*numberOfChars, LCDHEIGHT/2 - CHAR_HEIGHT*valueSize);
   display.print(value);
 
   display.display();
