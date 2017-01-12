@@ -39,11 +39,13 @@ void drawAxis() {
 //---------------------------------------------------
 
 void showText(String msg) {
-  // A a text size=1 allows to display 78 chars
+  // A text size=1 allows to display 78 chars
   uint8_t MAX_CHARS_DISPLAYED = 79;
   uint8_t numberOfChunks = (msg.length() / MAX_CHARS_DISPLAYED) + 1;
   uint8_t from = 0;
   uint8_t to = MAX_CHARS_DISPLAYED;
+
+  display.setTextSize(1);
 
   for(uint8_t i = 0; i < numberOfChunks; i++) {
     display.clearDisplay();
@@ -57,35 +59,33 @@ void showText(String msg) {
 
 //---------------------------------------------------
 
-// The char '-' is taken into account
-int calculateNumberOfChars(int value) {
-  int numberOfChars = value < 0 ? 1 : 0;
-
-  while(value) {
-    value = value / 10;
-    numberOfChars++;
-  }
-
-  return numberOfChars;
-}
-
-//---------------------------------------------------
-
-void showTitleAndValue(String title, int value, int titleSize = 1, int valueSize = 3) {
+void showTitleAndValue(String title, int value, int titleSize = 1, int valueSize = 2) {
   uint8_t CHAR_WIDTH = 5;
   uint8_t CHAR_HEIGHT = 3;
 
   display.clearDisplay();
-  
   display.setTextSize(titleSize);
   display.setCursor(LCDWIDTH/2 - ceil(CHAR_WIDTH*titleSize/2.0)*title.length(), 0);
   display.print(title);
-  
   display.setTextSize(valueSize);
-  int numberOfChars = calculateNumberOfChars(value);
-  display.setCursor(LCDWIDTH/2 - ceil(CHAR_WIDTH*valueSize/2.0)*numberOfChars, LCDHEIGHT/2 - CHAR_HEIGHT*valueSize);
+  display.setCursor(LCDWIDTH/2 - ceil(CHAR_WIDTH*valueSize/2.0)*String(value).length(), LCDHEIGHT/2 - CHAR_HEIGHT*valueSize);
   display.print(value);
+  display.display();
+}
 
+//---------------------------------------------------
+
+void showTitleAndValue(String title, float value, int titleSize = 1, int valueSize = 2) {
+  uint8_t CHAR_WIDTH = 5;
+  uint8_t CHAR_HEIGHT = 3;
+
+  display.clearDisplay();
+  display.setTextSize(titleSize);
+  display.setCursor(LCDWIDTH/2 - ceil(CHAR_WIDTH*titleSize/2.0)*title.length(), 0);
+  display.print(title);
+  display.setTextSize(valueSize);
+  display.setCursor(LCDWIDTH/2 - ceil(CHAR_WIDTH*valueSize/2.0)*String(value).length(), LCDHEIGHT/2 - CHAR_HEIGHT*valueSize);
+  display.print(value);
   display.display();
 }
 
@@ -93,17 +93,17 @@ void showTitleAndValue(String title, int value, int titleSize = 1, int valueSize
 
 void test_01() {
   for(int value = -999; value <= 999; value++) {
-    showTitleAndValue("accelerometer", value);
-    delay(100);
+    showTitleAndValue("int values", value);
+    delay(50);
   }
 }
 
 //---------------------------------------------------
 
 void test_02() {
-  for(int value = 0; value <= 1023; value++) {
-    showTitleAndValue("ldr", value);
-    delay(100);
+  for(float value = -10.0; value <= 10.0; value = value + 0.1) {
+    showTitleAndValue("float values", value);
+    delay(50);
   }
 }
 
@@ -120,6 +120,8 @@ void test_03() {
 //---------------------------------------------------
 
 void loop() {
+  test_01();
+  test_02();
   test_03();
 }
 
